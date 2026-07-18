@@ -15,8 +15,8 @@ var options = new WebApplicationOptions{
     WebRootPath = Path.Combine(AppContext.BaseDirectory, "src"),
 };
 //###############################################################################################################
-var BTBackend = new BTBackendHandler();
-var App = BTBackend.InitBackend("http://localhost:4040", options, setup => {
+var PTBackend = new PTBackendHandler();
+var App = PTBackend.InitBackend("http://localhost:4040", options, setup => {
     setup.AddPolicy(MyAllowSpecsCors, poly => {
         poly.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
     });
@@ -44,7 +44,7 @@ window.Closing += (sender, e) => {
     App.StopAsync();
 };
 window.Loaded += async (sender, e) => {
-    Webview.Source = new Uri(BTBackend.Url);
+    Webview.Source = new Uri(PTBackend.Url);
     await Webview.EnsureCoreWebView2Async();
 };
 

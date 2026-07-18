@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace PTBackend;
 
-public class BTBackendHandler{
+public class PTBackendHandler{
     public WebApplication? PiepsTronBackend { get; set; } = null;
     public string Url { get; private set; } = "http://localhost:3030";
     private string _defaultAllowSpecsCors { get; } = "_myAllowSpecsCors";
@@ -27,7 +27,7 @@ public class BTBackendHandler{
                 PiepsTronBackend.Run(url);
             });
         } else {
-            Console.WriteLine("ERROR AT Starting App Backend!!!");
+            Console.WriteLine("ERROR while starting App Backend!!!");
         }
     }
 //###############################################################################################################
