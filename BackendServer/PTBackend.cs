@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 
-namespace PTBackend;
+namespace PTSystem;
 
 public class PTBackendHandler{
     public WebApplication? PiepsTronBackend { get; set; } = null;
