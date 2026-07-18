@@ -23,3 +23,4 @@ C:\Users\madki\Desktop\PiepsTron\bin\Debug\net10.0-windows\Microsoft.Web.WebView
 C:\Users\madki\Desktop\PiepsTron\bin\Debug\net10.0-windows\Microsoft.Web.WebView2.Wpf.xml
 C:\Users\madki\Desktop\PiepsTron\obj\Debug\net10.0-windows\PiepsTron.csproj.AssemblyReference.cache
 C:\Users\madki\Desktop\PiepsTron\obj\Debug\net10.0-windows\PiepsTron.csproj.Up2Date
+C:\Users\madki\Desktop\PiepsTron\obj\Debug\net10.0-windows\PiepsTron.sourcelink.json
