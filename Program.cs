@@ -43,7 +43,7 @@ App.MapGet("/", async ctx => {
 //###############################################################################################################
 
 var WindowApplication = new System.Windows.Application();
-var window = new System.Windows.Window{Height = 800, Width = 1440, Name = "PiepsTron"};
+var window = new System.Windows.Window{Height = 600, Width = 800, Name = "PiepsTron"};
 var Webview = new Microsoft.Web.WebView2.Wpf.WebView2();
 var PiepsIPC = new PTipcBridge(Webview);
 window.Content = Webview;
