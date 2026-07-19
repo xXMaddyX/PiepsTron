@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PiepsTron")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c855e39a7a59211f45f7c5f64cc8e2afacfc0df4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fdeae22aa5d0b6050da3d649bea8864edf3a3944")]
 [assembly: System.Reflection.AssemblyProductAttribute("PiepsTron")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PiepsTron")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

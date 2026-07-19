@@ -1,41 +1,69 @@
 # PiepsTron
 
-> 🚧 Frühe Entwicklungsphase — Architektur steht, UI ist aktuell noch Platzhalter.
+> 🚧 Early development — architecture is in place, UI is still a placeholder.
 
-PiepsTron ist eine Windows-Desktop-Anwendung, die UI und Backend wie bei
-**Electron** trennt — nur auf Basis von .NET statt Chromium/Node:
+PiepsTron is a Windows desktop app that splits UI and backend the way
+**Electron** does — just built on .NET instead of Chromium/Node:
 
 - **Shell/Host:** WPF
-- **UI-Renderer:** [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) (Microsoft Edge / Chromium)
-- **Backend:** eingebetteter ASP.NET Core Webserver (Kestrel)
+- **UI renderer:** [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) (Microsoft Edge / Chromium)
+- **Backend:** embedded ASP.NET Core web server (Kestrel)
+- **IPC:** a small named-channel bridge between the WPF host and the WebView2
+  frontend, modeled after Electron's `ipcMain`/`ipcRenderer`
 
-Die App startet lokal einen eigenen Webserver und zeigt dessen Oberfläche
-danach in einem nativen Fenster an.
+The app starts its own local web server and then displays that server's UI
+inside a native window.
 
 ## Tech Stack
 
-| Bereich   | Technologie                          |
+| Area      | Technology                           |
 |-----------|---------------------------------------|
 | Runtime   | .NET 10 (`net10.0-windows`)           |
-| UI-Shell  | WPF                                   |
-| UI-Render | WebView2                              |
+| UI shell  | WPF                                   |
+| UI render | WebView2                              |
 | Backend   | ASP.NET Core / Kestrel                |
-| Frontend  | HTML / CSS / JavaScript (ES-Module)   |
+| Frontend  | HTML / CSS / JavaScript (ES modules)  |
 
-## Projektstruktur
+## Project Structure
 
 ```
-Program.cs                 App-Einstiegspunkt (Backend-Start + WPF-Fenster)
+Program.cs                   App entry point: starts the backend, opens the WPF window + WebView2
 BackendServer/
-  PTBackend.cs              Aufbau & Start des eingebetteten Webservers
-src/                        Web-Frontend (HTML/CSS/JS), als WebRoot ausgeliefert
+  PTBackend.cs                PTBackendHandler — builds & runs the embedded Kestrel server
+  PTIPCBridge.cs               PTipcBridge — named-channel IPC between WPF host and WebView2 frontend
+src/                          Web frontend (HTML/CSS/JS), served as the backend's web root
 ```
 
-## Voraussetzungen
+## IPC
+
+Channels are identified by name, similar to Electron's IPC channels:
+
+```csharp
+// Backend -> Frontend
+PiepsIPC.AddSender("callfrontend");
+PiepsIPC.SendMessage("""{"data": "Message from Backend"}""", "callfrontend");
+
+// Frontend -> Backend
+PiepsIPC.AddReceiver("testsignal", (data) => {
+    Console.WriteLine(data);
+});
+```
+
+```js
+// Frontend -> Backend
+window.chrome.webview.postMessage({ Name: "testsignal", Data: "hello" });
+
+// Backend -> Frontend
+window.chrome.webview.addEventListener("message", (event) => {
+    console.log(event.data);
+});
+```
+
+## Requirements
 
 - Windows
 - [.NET SDK 10](https://dotnet.microsoft.com/download)
-- Microsoft Edge WebView2 Runtime (auf aktuellen Windows-Systemen i. d. R. vorinstalliert)
+- Microsoft Edge WebView2 Runtime (preinstalled on most current Windows systems)
 
 ## Getting Started
 
@@ -44,15 +72,15 @@ dotnet build
 dotnet run
 ```
 
-Die App startet den Backend-Server unter `http://localhost:4040` und öffnet
-ihn in einem eigenen Fenster.
+The app starts the backend server on `http://localhost:4040` and opens it in
+its own window.
 
 ## Roadmap
 
-- [ ] Eigentliche PiepsTron-UI (aktueller Frontend-Inhalt ist nur Platzhalter)
-- [ ] IPC zwischen WPF-Host und WebView2-Frontend (analog zu Electrons
-      Main ↔ Renderer-Kommunikation)
-- [ ] CORS-Policy für Produktion einschränken
+- [ ] Actual PiepsTron UI (current frontend content is a placeholder)
+- [ ] Linux support (alternative to WebView2, e.g. WebKitGTK)
+- [ ] macOS support (alternative to WebView2, e.g. WKWebView)
+- [ ] Restrict the CORS policy for production
 - [ ] Tests
 
 ## License
