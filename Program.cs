@@ -38,14 +38,21 @@ App.MapGet("/", async ctx => {
 var WindowApplication = new System.Windows.Application();
 var window = new System.Windows.Window{Height = 800, Width = 1440, Name = "PiepsTron"};
 var Webview = new Microsoft.Web.WebView2.Wpf.WebView2();
+var PiepsIPC = new PTipcBridge(Webview);
 window.Content = Webview;
 
 window.Closing += (sender, e) => {
     App.StopAsync();
 };
+
 window.Loaded += async (sender, e) => {
     Webview.Source = new Uri(PTBackend.Url);
     await Webview.EnsureCoreWebView2Async();
+    PiepsIPC.InitReceiver();
+    
+    PiepsIPC.AddReceiver("testsignal", (data) => { Console.WriteLine(data); });
 };
 
+
 WindowApplication.Run(window);
+
